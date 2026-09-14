@@ -9,7 +9,7 @@
 <meta property="og:description" content="Welmnt brings mental-health education inside Egyptian schools. TikTok's partner for Family Academy, Egypt second edition.">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/Logo.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600&family=Literata:opsz,wght@7..72,300;7..72,400;7..72,500&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,32 +21,70 @@
 </header>
 <main>
 
-<div class="wrap hero">
-  <div class="hero-grid">
+<div class="hero">
+  <div class="wrap">
     <div>
-      <p class="eyebrow">Mental-health education for schools · Egypt</p>
-      <h1>Empowering <span class="amb">young minds</span>, one step at a time.</h1>
-      <p class="lede">Schools shouldn't wait for a referral. Welmnt brings mental-health education
-        inside the building — age-appropriate, culture-appropriate, in Arabic, delivered to the
-        students, parents and teachers who are already there.</p>
+      <div class="kicker"><span class="five" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>Mental-health education for schools · Egypt</span></div>
+      <h1>Schools shouldn't wait for a referral. They should <em>protect earlier</em>.</h1>
+      <p class="lede">Welmnt brings mental-health education inside the building — age-appropriate,
+        culture-appropriate, in Arabic, delivered to the students, parents and teachers who are
+        already there.</p>
       <div class="cta-row">
         <a class="btn" href="contact.html">Bring Welmnt to your school</a>
         <a class="btn btn-ghost" href="projects.html">See our work</a>
       </div>
     </div>
-    <div class="hero-art"><img src="assets/LandingImage1.svg" alt=""></div>
+    <div>
+<div class="item">
+  <div class="top"><span class="five" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="lbl">From the assessment</span>
+    <span class="of">Item 1 of 25</span></div>
+  <p class="q">الطفل لازم يبقى قادر يتحكم في نفسه من بدري، حتى لو عنده سنة أو سنتين.</p>
+  <div class="scale" role="group" aria-label="Answer the item">
+    <button type="button" aria-pressed="false" style="--kc:var(--k1)"><span class="dot"></span>أوافق بشدة</button>
+    <button type="button" aria-pressed="false" style="--kc:var(--k2)"><span class="dot"></span>أوافق</button>
+    <button type="button" aria-pressed="false" style="--kc:var(--k3)"><span class="dot"></span>غير متأكد</button>
+    <button type="button" aria-pressed="false" style="--kc:var(--k4)"><span class="dot"></span>أعارض</button>
+    <button type="button" aria-pressed="false" style="--kc:var(--k5)"><span class="dot"></span>أعارض بشدة</button>
   </div>
-
-  <div class="proof">
-    <div><div class="lbl">Most recent</div><div class="val"><em>TikTok Family Academy</em> — Egypt, second edition</div></div>
-    <div><div class="lbl">Venue</div><div class="val">The International School of Choueifat, 6th October</div></div>
-    <div><div class="lbl">When</div><div class="val">November 2025</div></div>
+  <div class="after" id="after">
+    <p><strong>That's one item. There are twenty-five.</strong> They're written in Egyptian
+      colloquial Arabic, about evenings that actually happen in an Egyptian home, and scored across
+      five constructs. A parent in the hall finishes in about ten minutes and leaves with their own
+      report — and the room's answers go up on the screen behind the panel.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var scale = document.querySelector('.item .scale');
+  if (!scale) return;
+  var after = document.getElementById('after');
+  scale.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    scale.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+    b.setAttribute('aria-pressed','true');
+    after.classList.add('on');
+  });
+})();
+</script></div>
   </div>
 </div>
 
-<section>
+<div class="proof">
   <div class="wrap">
-    <p class="eyebrow">What we believe</p>
+    <div class="railcol"><span class="eyebrow" style="margin-top:0">Most recent</span></div>
+    <div class="items">
+      <div><span class="lbl">Partner</span><span class="val"><em>TikTok Family Academy</em> — Egypt, second edition</span></div>
+      <div><span class="lbl">Venue</span><span class="val">The International School of Choueifat, 6th October</span></div>
+      <div><span class="lbl">When</span><span class="val">November 2025</span></div>
+    </div>
+  </div>
+</div>
+
+
+<section class="sec">
+  <div class="wrap">
+    <div class="railcol"><div class="sticky"><span class="five" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="idx">What we believe</span></div></div>
+    <div class="col">
     <h2>Protection, not referral.</h2>
     <p class="lede">The usual model waits for a student to break, then routes them to a professional.
       That is late, expensive, and stigmatising. Welmnt works the other way round: teach the skills at
@@ -62,40 +100,41 @@
       <div class="pillar"><div class="n">Something to act on</div>
         <p>Every engagement closes with a written report: attendance, what the assessment surfaced
           across the cohort, and where to put attention next term.</p></div>
-    </div>
+    </div></div>
   </div>
 </section>
 
-<section class="on-surface">
+
+<section class="sec on-surface">
   <div class="wrap">
+    <div class="railcol"><div class="sticky"><span class="five" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="idx">Selected work</span></div></div>
+    <div class="col">
     <div class="split">
       <div>
-        <p class="eyebrow">Selected work</p>
         <h2>TikTok chose Welmnt for Family Academy</h2>
         <p class="lede">TikTok brought the second edition of its regional Family Academy to Egypt and
           named Welmnt as its mental-health and family-wellbeing partner. We built the model the press
           described: the platform brings the product layer, Welmnt brings the psychological and
           educational layer, and the school brings the trust.</p>
-        <div class="cta-row">
-          <a class="btn btn-ghost" href="projects.html#family-academy">Read the case study</a>
-        </div>
+        <div class="cta-row"><a class="btn btn-ghost" href="projects.html#family-academy">Read the case study</a></div>
       </div>
       <div class="hero-art"><img src="assets/approach-parent.svg" alt=""></div>
-    </div>
+    </div></div>
   </div>
 </section>
 
-<section>
+
+<section class="sec">
   <div class="wrap">
-    <p class="eyebrow">Programmes</p>
+    <div class="railcol"><div class="sticky"><span class="five" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="idx">Programmes</span></div></div>
+    <div class="col">
     <h2>Two formats, delivered turnkey</h2>
     <p class="lede">We bring the facilitators, the materials, the assessment technology and the
       post-event report. The school brings the room and the invitation.</p>
     <div class="cols c2">
       <div class="card">
         <h3>Awareness Day</h3>
-        <p style="font-family:var(--display);font-size:13.5px;color:var(--ink-faint);margin-bottom:10px">
-          3 hours · parents · workshop + panel + networking</p>
+        <p class="meta">3 hours · parents · workshop, panel and networking</p>
         <p>A focused parent event built for high visibility and low logistical load. Runs in any school,
           including government schools with no device assumption. Usually the right first engagement
           with a new institution.</p>
@@ -103,19 +142,20 @@
       </div>
       <div class="card lift">
         <h3>Whole-School Day</h3>
-        <p style="font-family:var(--display);font-size:13.5px;color:var(--ink-faint);margin-bottom:10px">
-          Full day · students, parents and teachers · three parallel tracks</p>
+        <p class="meta">Full day · students, parents and teachers · three parallel tracks</p>
         <p>The full institutional programme. Three tracks run simultaneously from morning to close, so
           the school moves as one body instead of sending a handful of parents to an evening talk.</p>
         <p class="src"><a href="programmes.html#whole-school">What's included →</a></p>
       </div>
-    </div>
+    </div></div>
   </div>
 </section>
 
-<section class="band">
+
+<section class="sec band tall">
   <div class="wrap">
-    <p class="eyebrow">The platform</p>
+    <div class="railcol"><div class="sticky"><span class="five" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="idx">The platform</span></div></div>
+    <div class="col">
     <h2>The heroes of Welmnt</h2>
     <p class="lede">A day in a hall changes a conversation. Keeping it changed takes a system. Welmnt's
       platform is built around the four people who hold a student's wellbeing between them — each with
@@ -147,26 +187,27 @@
       <li>Policy implementation</li></ul>
   </div>
 </div>
-
     <p class="note"><strong>Where this stands today.</strong> The parent assessment and the live room
       screen are built and have run inside schools. The full four-role platform is the direction we are
       building toward — we would rather say that plainly than sell you a login that isn't ready.
-      <a href="platform.html">More on the platform →</a></p>
+      <a href="platform.html">More on the platform →</a></p></div>
   </div>
 </section>
 
 <section class="closer">
   <div class="wrap">
-    <h2>Bring Welmnt to your school.</h2>
-    <p>Tell us the school, the audience and roughly when. We come back with a format and a date —
-      and a written proposal within 48 hours of agreeing the shape.</p>
-    <div class="cta-row">
-      <a class="btn" href="contact.html">Start a conversation</a>
-      <a class="btn btn-ghost" href="programmes.html">See the programmes</a>
+    <div class="railcol"><span class="five" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="eyebrow">Next step</span></div>
+    <div class="col">
+      <h2>Bring Welmnt to your school.</h2>
+      <p>Tell us the school, the audience and roughly when. We come back with a format and a date —
+        and a written proposal within 48 hours of agreeing the shape.</p>
+      <div class="cta-row">
+        <a class="btn" href="contact.html">Start a conversation</a>
+        <a class="btn btn-ghost" href="programmes.html">See the programmes</a>
+      </div>
     </div>
   </div>
 </section>
-
 </main>
 <footer class="site">
   <div class="wrap">
@@ -187,17 +228,15 @@
         <li><a href="programmes.html#whole-school">Whole-School Day</a></li>
       </ul></div>
       <div><h4>Contact</h4><ul>
-        <li><a href="mailto:info@welmnt.me">info@welmnt.me</a></li>
-        <li>Cairo, Egypt</li>
-      </ul>
-      <p style="color:var(--ink-faint);font-family:var(--display);font-size:13.5px;margin-top:14px">
-        Welmnt for Educational<br>and Technical Services LLC</p>
+        <li><a href="mailto:info@welmnt.me">info@welmnt.me</a></li><li>Cairo, Egypt</li></ul>
+        <p style="color:var(--ink-faint);font-family:var(--ui);font-size:12.5px;margin-top:13px;line-height:1.6">
+          Welmnt for Educational<br>and Technical Services LLC</p>
       </div>
     </div>
     <div class="fbot">
       <img class="bee" src="assets/bee.svg" alt="">
       <span>© 2026 Welmnt · Founded 2024 · Cairo, Egypt</span>
-      <span class="sp"><a href="privacy.html">Privacy policy</a></span>
+      <span class="sp"><a href="privacy.html">Privacy</a></span>
     </div>
   </div>
 </footer>
