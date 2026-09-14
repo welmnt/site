@@ -121,8 +121,10 @@ header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--groun
 
 /* roles — the four accounts */
 .roles{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:36px}
-.role{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--rc);border-radius:4px;padding:22px 20px;display:flex;flex-direction:column;gap:11px}
-.role .who{font-family:var(--display);font-size:18px;font-weight:600}
+.role{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--rc);border-radius:4px;padding:0 20px 22px;display:flex;flex-direction:column;gap:11px}
+.role .art{margin:0 -20px 2px;background:#F5F2FB;border-bottom:1px solid var(--line-soft);display:flex;align-items:flex-end;justify-content:center;height:168px;padding:14px 10px 0}
+.role .art img{height:100%;width:auto;max-width:100%;object-fit:contain;display:block}
+.role .who{font-family:var(--display);font-size:18px;font-weight:600;color:var(--rc)}
 .role .sub{font-family:var(--display);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:-7px}
 .role ul{margin:0;padding-left:17px;font-size:15.5px;color:var(--ink-soft);line-height:1.5}
 .role li{margin-bottom:5px}
@@ -377,28 +379,32 @@ footer{border-top:1px solid var(--line);padding:32px 0 52px;color:var(--ink-fain
 <section class="on-surface" id="platform">
   <div class="wrap">
     <p class="eyebrow">The platform</p>
-    <h2>Four people see a school. Four different views.</h2>
+    <h2>The heroes of Welmnt</h2>
     <p class="lede">A day in a hall changes a conversation. Keeping it changed takes a system. Welmnt's
       platform is built around the four people who hold a student's wellbeing between them — each with
       the view their role actually needs, and nothing it doesn't.</p>
 
     <div class="roles">
-      <div class="role" style="--rc:var(--ember)">
+      <div class="role" style="--rc:#7B5EA0">
+        <div class="art"><img src="assets/StudentBG.svg" alt="Buddy, the Welmnt student character"></div>
         <div class="who">Buddy</div>
         <div class="sub">Student</div>
         <ul><li>Mood tracking</li><li>Interactive journaling</li><li>AI mental coach</li><li>Personalised curriculum</li></ul>
       </div>
-      <div class="role" style="--rc:var(--violet)">
+      <div class="role" style="--rc:#D4566B">
+        <div class="art"><img src="assets/ParentBG.svg" alt="The Welmnt parent character"></div>
         <div class="who">Parent</div>
         <div class="sub">Family</div>
         <ul><li>Track progress</li><li>Monitor wellbeing</li><li>Alerts for time-sensitive situations</li><li>No access to private entries</li></ul>
       </div>
-      <div class="role" style="--rc:var(--amber)">
+      <div class="role" style="--rc:#D1560F">
+        <div class="art"><img src="assets/TeacherBG.svg" alt="The Welmnt teacher character"></div>
         <div class="who">Teacher</div>
         <div class="sub">Classroom</div>
         <ul><li>Student insights</li><li>Assign personalised tasks</li><li>Tailor curriculum to need</li></ul>
       </div>
-      <div class="role" style="--rc:var(--slate)">
+      <div class="role" style="--rc:#B33A34">
+        <div class="art"><img src="assets/AdministratorBG.svg" alt="The Welmnt administrator character"></div>
         <div class="who">Administrator</div>
         <div class="sub">School-wide</div>
         <ul><li>Analytics &amp; reports</li><li>User management</li><li>School-wide standards</li></ul>
