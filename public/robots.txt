@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# The CRM. Login-gated, and nothing here should ever appear in a search result.
+Disallow: /admin
+Disallow: /thank-you
+
+Sitemap: https://welmnt.me/sitemap.xml
