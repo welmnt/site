@@ -37,7 +37,7 @@ connected. A brochure shouldn't go blank because a database is unreachable.
 
 ## Database
 
-Migrations in `supabase/migrations`, applied in order. See `supabase/README.md`.
+Migrations in `supabase/migrations`, timestamp-ordered and applied with `supabase db push`. See `supabase/README.md`.
 
 ⚠️ The project is new, on Abdullah's Supabase org. **Never** point these at the
 Catalyst project (`kckohxkpliysqlnkwgrd`, "chatly") — it has no migration history and

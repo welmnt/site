@@ -13,7 +13,7 @@ supabase db push        # ⚠️ only ever on THIS project
 > "chatly"). It has no migration history and a push would replay migrations against
 > a live payments database.
 
-Order: `0001_core.sql` → `0002_rls.sql` → `0003_seed.sql`.
+Order: `…_core.sql` → `…_rls.sql` → `…_seed.sql` (timestamp-ordered, as the Supabase CLI expects).
 
 ## The rules that keep this safe
 
@@ -32,11 +32,18 @@ Lifted from the Catalyst production app. Each one maps to a bug that was live.
 write, so two reps saving at the same instant cannot oversell a cohort. Never let a
 client set it directly.
 
-## First admin
+## Project
 
-Supabase signup should stay **disabled**. Create the user in the dashboard, then:
+Linked to **Welmnt** — ref `zjbjhrbpvgnxcvawybtt`, West EU (Ireland). Migrations applied
+2026-09-15, so this project has a real migration history from its first day.
 
-```sql
-insert into public.team_members (auth_uid, name, email, role_id)
-values ('<auth.users.id>', 'Hazem', 'hazem@…', (select id from public.roles where key='admin'));
+## Adding a person
+
+Public signup stays **disabled** — an account only exists because someone created it in
+the dashboard (Authentication → Users → Add user), where they set their own password.
+That login grants nothing on its own; permission comes from the `team_members` row:
+
+```bash
+bash scripts/link-team-member.sh hazem@example.com "Hazem" admin
+bash scripts/link-team-member.sh rep@example.com   "Rep Name" sales
 ```
