@@ -1,0 +1,62 @@
+# Welmnt — LiteSpeed/Apache config for the built SPA.
+# Upload with the rest of dist/ into public_html.
+
+# ── HTTPS ──────────────────────────────────────────────────────────────────
+# ⚠️ OFF BY DEFAULT, ON PURPOSE.
+#
+# The only certificate on this host right now is the shared *.web-hosting.com
+# one, which does not match welmnt.me. Forcing HTTPS before AutoSSL has issued
+# a real certificate sends every visitor to a browser security warning instead
+# of the site — worse than plain HTTP.
+#
+# STEP 3: after cPanel → SSL/TLS Status shows welmnt.me as secured, delete the
+# four "#" characters below and re-upload this file. Then it is correct to force.
+#
+#   RewriteCond %{HTTPS} !=on
+#   RewriteCond %{HTTP_HOST} !^localhost [NC]
+#   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+#
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # one canonical host: www → apex. Protocol-relative, so it works on plain
+  # HTTP today and keeps working once HTTPS is forced above.
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ //%1/$1 [R=301,L]
+
+  # ── SPA fallback ────────────────────────────────────────────────────────
+  # Anything that is not a real file or directory is handed to the app, which
+  # then routes it client-side. Unlike GitHub Pages' 404.html trick this returns
+  # a genuine 200, so a deep link is indexable rather than marked missing.
+  # The prerendered route folders are real directories, so they are served
+  # directly and never reach this rule.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/(assets|_)
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# ── Caching ────────────────────────────────────────────────────────────────
+# Vite fingerprints filenames in /assets, so those are safe to cache forever.
+# HTML must not be cached hard or a deploy takes a day to reach anyone.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2|ttf|svg|png|jpg|jpeg|webp|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html|json|xml|txt)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ── Compression ────────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
+    application/javascript application/json image/svg+xml
+</IfModule>
+
+# UTF-8, so the Arabic in the HTML is never mis-decoded
+AddDefaultCharset UTF-8
+
+ErrorDocument 404 /index.html
