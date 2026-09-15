@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<!-- Readex Pro, embedded. It was drawn for bilingual Arabic/Latin setting and for
+     readers still learning to read, which is Welmnt's audience exactly. Embedded
+     rather than linked so the render can never beat the font to the screen and
+     silently fall back to a face that shapes Arabic badly. -->
+__FONTS__
+<style>
+  :root{
+    --ground:#F3F0F9; --surface:#FFFFFF; --ink:#242A34; --ink-soft:#544C66;
+    --ember:#E3631B; --plum:#8265A7; --amber:#FFB423;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:__W__px;height:__H__px;overflow:hidden}
+  body{
+    font-family:"Readex Pro",sans-serif;
+    background:var(--ground); color:var(--ink);
+    display:flex; flex-direction:column;
+    padding:__SZ_PAD__px; position:relative;
+  }
+  /* the amber sun, top-left — the brand's own mark */
+  .sun{position:absolute; top:__SZ_PAD__px; left:__SZ_PAD__px; width:__SZ_SUN__px; height:__SZ_SUN__px}
+  .eyebrow{
+    font-size:__SZ_EYE__px; font-weight:600; letter-spacing:.02em;
+    color:var(--accent); margin-bottom:__SZ_GAP2__px;
+  }
+  h1{
+    font-size:__SZ_H1__px; font-weight:700; line-height:1.18;
+    letter-spacing:-0.01em; margin-bottom:__SZ_GAP__px;
+  }
+  .sub{
+    font-size:__SZ_SUB__px; font-weight:400; line-height:1.5;
+    color:var(--ink-soft); max-width:__SZ_SUBW__px;
+  }
+  .art{flex:1; display:flex; align-items:center; justify-content:center; min-height:0; padding:__SZ_GAP__px 0}
+  .art img{width:100%; height:100%; object-fit:contain}
+  .art img.round{border-radius:50%; width:__SZ_ART__px; height:__SZ_ART__px; object-fit:cover}
+  footer{
+    display:flex; align-items:center; justify-content:space-between; gap:__SZ_GAP2__px;
+    border-top:__SZ_RULE__px solid #DDD6EC; padding-top:__SZ_GAP2__px;
+  }
+  .foot{font-size:__SZ_FOOT__px; font-weight:500; color:var(--ink-soft)}
+  .cta{
+    background:var(--accent); color:#fff; font-weight:600;
+    font-size:__SZ_FOOT__px; padding:__SZ_CTAY__px __SZ_CTAX__px; border-radius:999px;
+    white-space:nowrap;
+  }
+  /* five-mark — the assessment's scale, the brand's signature */
+  .five{position:absolute; top:__SZ_PAD__px; right:__SZ_PAD__px; display:flex; gap:__SZ_DOTG__px}
+  .five i{width:__SZ_DOT__px;height:__SZ_DOT__px;border-radius:99px;background:var(--accent);display:block}
+</style>
+</head>
+<body style="--accent:__ACCENT__">
+  <img class="sun" src="__ASSETS__/Sun.svg" alt="">
+  <div class="five">__DOTS__</div>
+  <div style="height:__SZ_HEADTOP__px"></div>
+  <div class="eyebrow">__EYEBROW__</div>
+  <h1>__HEADLINE__</h1>
+  <p class="sub">__SUB__</p>
+  <div class="art"><img class="__ROUND__" src="__ASSETS__/__ART__" alt=""></div>
+  <footer>
+    <span class="foot">__FOOT__</span>
+    <span class="cta">احجز مكان</span>
+  </footer>
+</body>
+</html>

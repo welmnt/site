@@ -1,0 +1,63 @@
+{
+  "_note": "Ad copy lives here so it can be edited without touching the renderer. Every line is checked against Meta's health/wellness rule: NAME THE SERVICE, never address the reader's or the child's condition. 'Depression counselling' is allowed; 'Depression getting you down?' is not. Egyptian colloquial, because English-only dramatically underperforms in Egypt.",
+  "concepts": [
+    {
+      "id": "offer",
+      "note": "Product-forward. What it is, who it's for, how long. The plainest possible statement of the thing.",
+      "accent": "ember",
+      "art": "LandingImage1.svg",
+      "eyebrow": "ولمنت",
+      "headline": "٨ جلسات أونلاين لولادك",
+      "sub": "برنامج مباشر لكل مرحلة عمرية — على مدى شهرين",
+      "foot": "من ٥ لـ ١٧ سنة"
+    },
+    {
+      "id": "education-not-therapy",
+      "note": "The positioning, and the compliance-safest line we have: it describes what the service IS rather than any state a child might be in.",
+      "accent": "plum",
+      "art": "StudentBG.svg",
+      "eyebrow": "ولمنت",
+      "headline": "تعليم… مش علاج",
+      "sub": "بنعلّم الولاد يفهموا نفسهم في السن المناسب",
+      "foot": "٨ جلسات مباشرة · مجموعات صغيرة"
+    },
+    {
+      "id": "who-teaches",
+      "note": "Credibility. Her PhD and 20+ years are verifiable. TikTok is deliberately NOT named in paid copy — citing it on the website as fact is one thing, implying endorsement inside an ad is another.",
+      "accent": "amber",
+      "art": "walaa.jpg",
+      "art_round": true,
+      "eyebrow": "بتدي الجلسات بنفسها",
+      "headline": "د. ولاء الجمل",
+      "sub": "دكتوراه وأكتر من ٢٠ سنة خبرة إكلينيكية",
+      "foot": "جلسات مباشرة أونلاين لولادك"
+    }
+  ],
+  "sizes": [
+    {
+      "id": "1x1",
+      "w": 1080,
+      "h": 1080,
+      "note": "feed square"
+    },
+    {
+      "id": "4x5",
+      "w": 1080,
+      "h": 1350,
+      "note": "feed portrait — most real estate"
+    },
+    {
+      "id": "9x16",
+      "w": 1080,
+      "h": 1920,
+      "note": "stories / reels"
+    },
+    {
+      "id": "og",
+      "w": 1200,
+      "h": 630,
+      "note": "link preview (og:image)"
+    }
+  ],
+  "_art_note": "Artwork must be VISUALLY checked before it ships. Two assets in public/assets look usable and are not: Classroom.svg is a 50x50 icon, and approach-*.svg are diagram fragments with English labels OUTLINED INTO PATHS — no <text> element to grep for, so only looking catches it. Verified clean for ad use: LandingImage1.svg, StudentBG.svg, ParentBG.svg, TeacherBG.svg, sunshine-character.svg, walaa.jpg, hazem.jpg."
+}
