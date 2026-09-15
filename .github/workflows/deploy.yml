@@ -32,10 +32,6 @@ jobs:
           # would break anything. The service_role key must never appear here.
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-      # GitHub Pages serves static files, so a deep link like /programmes/ages-5-9
-      # would 404 on refresh. Pages renders 404.html for any unmatched path, so
-      # handing it the app lets the client router take over.
-      - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
