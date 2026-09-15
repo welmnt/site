@@ -1,14 +1,20 @@
+import { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { Card, FiveMark, LinkButton, Pill, Section, accentVar } from "@/components/ui";
 import { LeadForm } from "@/components/site/LeadForm";
 import { usePrograms, useOpenCohorts } from "@/hooks/usePrograms";
 import { egp, seatsLabel, shortDate, WEEKDAYS } from "@/lib/format";
+import { trackViewContent } from "@/lib/pixel";
 
 export default function ProgrammeDetail() {
   const { slug } = useParams();
   const { data: programs } = usePrograms();
   const programme = programs.find((p) => p.slug === slug);
   const { data: cohorts } = useOpenCohorts(programme?.id);
+
+  useEffect(() => {
+    if (programme) trackViewContent(programme.title, programme.slug);
+  }, [programme?.slug]);
 
   if (programs.length && !programme) return <Navigate to="/programmes" replace />;
   if (!programme) return null;

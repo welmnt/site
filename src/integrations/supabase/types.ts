@@ -65,6 +65,7 @@ export type Lead = {
   utm_term: string | null;
   fbc: string | null;
   fbp: string | null;
+  meta_event_id: string | null;
   status: LeadStatus;
   assigned_to: string | null;
   last_contacted_at: string | null;
@@ -89,6 +90,7 @@ export type LeadInsert = {
   utm_term?: string | null;
   fbc?: string | null;
   fbp?: string | null;
+  meta_event_id?: string | null;
 }
 
 export type Customer = {

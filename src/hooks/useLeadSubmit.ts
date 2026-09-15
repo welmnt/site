@@ -1,7 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { getAttribution } from "@/lib/attribution";
+import { newEventId, trackLead } from "@/lib/pixel";
 import type { LeadInsert } from "@/integrations/supabase/types";
+
+/**
+ * What a lead is worth to the pixel. Not the 3,000 EGP price — that is a SALE.
+ * This is the programme price times a deliberately conservative close rate, so the
+ * value Meta optimises on isn't fiction. Revisit once there is a real close rate
+ * in the CRM; until then under-claiming is the safe direction.
+ */
+const LEAD_VALUE_EGP = 300;
 
 export interface LeadFormValues {
   parent_name: string;
@@ -31,6 +40,10 @@ export function useLeadSubmit() {
         throw new Error("NOT_CONFIGURED");
       }
       const attribution = getAttribution();
+      // One id, two reports. The pixel fires it from the browser and the row keeps
+      // it so a Conversions API send can be deduplicated against the same event
+      // instead of counting the lead twice.
+      const eventId = newEventId();
       const payload: LeadInsert = {
         parent_name: values.parent_name.trim(),
         phone: values.phone.trim(),
@@ -48,9 +61,13 @@ export function useLeadSubmit() {
         utm_term: attribution.utm_term ?? null,
         fbc: attribution.fbc ?? null,
         fbp: attribution.fbp ?? null,
+        meta_event_id: eventId,
       };
       const { error } = await supabase.from("leads").insert(payload);
       if (error) throw error;
+      // Only after the row is safely written. Reporting a conversion Meta will
+      // optimise toward, for a lead that failed to save, is the worst outcome here.
+      trackLead(LEAD_VALUE_EGP, eventId);
       return true;
     },
   });

@@ -4,6 +4,7 @@ import { SiteFooter, SiteHeader } from "@/components/site/SiteShell";
 import { AuthProvider } from "@/components/admin/AuthContext";
 import { AdminGuard, AdminLayout } from "@/components/admin/AdminLayout";
 import { captureAttribution } from "@/lib/attribution";
+import { trackPageView } from "@/lib/pixel";
 
 import Home from "@/pages/site/Home";
 import Programmes from "@/pages/site/Programmes";
@@ -27,10 +28,13 @@ const Customers = lazy(() => import("@/pages/admin/Customers"));
 const Payments = lazy(() => import("@/pages/admin/Payments"));
 const Team = lazy(() => import("@/pages/admin/Team"));
 
-function ScrollToTop() {
+function RouteChange() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    // An SPA gets one real page load. Without this, Meta sees a single PageView
+    // per session and every downstream rate is computed against the wrong base.
+    trackPageView();
   }, [pathname]);
   return null;
 }
@@ -55,7 +59,7 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <ScrollToTop />
+      <RouteChange />
       <Suspense fallback={<div className="px-5 py-24 text-center text-ink-faint">Loading…</div>}>
       <Routes>
         {/* public */}
