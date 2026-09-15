@@ -50,7 +50,9 @@ export function SiteHeader() {
           </Link>
         </nav>
         <button
-          className="rounded-lg border border-line p-2 md:hidden"
+          // 44px minimum — this is the only way to reach navigation on a phone,
+          // and the traffic this site is about to buy is almost entirely mobile.
+          className="flex h-11 w-11 items-center justify-center rounded-lg border border-line md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label="Menu"
