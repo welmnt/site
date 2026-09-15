@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════
+   Welmnt brand tokens.
+
+   Recovered from the 2024 landing-website build CSS and docs/TECHNICAL_BRANDING.md,
+   then carried through the Sep-2026 corporate site. Burnt orange + violet + the
+   amber sun on a lilac ground — richer than the flat orange the connect-suite used.
+
+   The five constructs (k1…k5) come from the parenting assessment. They double as
+   the site's structural scale: each programme takes one, so colour carries meaning
+   instead of decoration.
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  --ground:#F3F0F9;
+  --surface:#FFFFFF;
+  --band:#EAE5F4;
+  --ink:#221C2E;
+  --ink-soft:#544C66;
+  --ink-faint:#8A839C;
+  --ember:#E3631B;
+  --ember-ink:#A8410C;
+  --plum:#3F3151;
+  --amber:#FFB423;
+  --line:#DDD6EC;
+  --line-soft:#EBE6F5;
+
+  --k1:#E3631B;  /* expectations  */
+  --k2:#2F9E7E;  /* empathy       */
+  --k3:#D6455B;  /* punishment    */
+  --k4:#4A6375;  /* role reversal */
+  --k5:#8265A7;  /* power         */
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#151122; --surface:#1E192D; --band:#191429;
+    --ink:#EEE9F7; --ink-soft:#B4ABC8; --ink-faint:#867D9B;
+    --ember:#FF8038; --ember-ink:#FFAB77; --plum:#C6B4E2; --amber:#FFC44D;
+    --line:#332B47; --line-soft:#282141;
+    --k1:#FF8038; --k2:#4FC79F; --k3:#F26E80; --k4:#8FA8BC; --k5:#B295D6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#151122; --surface:#1E192D; --band:#191429;
+  --ink:#EEE9F7; --ink-soft:#B4ABC8; --ink-faint:#867D9B;
+  --ember:#FF8038; --ember-ink:#FFAB77; --plum:#C6B4E2; --amber:#FFC44D;
+  --line:#332B47; --line-soft:#282141;
+  --k1:#FF8038; --k2:#4FC79F; --k3:#F26E80; --k4:#8FA8BC; --k5:#B295D6;
+  color-scheme: dark;
+}
+
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Readex Pro", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+*{ box-sizing:border-box; }
+img, svg{ max-width:100%; }
+
+/* The five-mark — the assessment's scale, abstracted. Used as a section index. */
+.fivemark{ display:inline-flex; gap:3px; align-items:center; }
+.fivemark i{ width:5px; height:5px; border-radius:99px; background:var(--line); display:block; }
+.fivemark i[data-on="1"]{ background:currentColor; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
