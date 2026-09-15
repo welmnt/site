@@ -9,7 +9,7 @@ brand and a different delivery model.
 | Half | What it does |
 |---|---|
 | **Public site** | Home · Programmes · Programme detail · Schools & Events · About · FAQ · Contact · Privacy · Book a place |
-| **CRM** (`/admin`) | Overview · Leads · Follow-ups · Cohorts · Enrollments · Customers · Payments · Team |
+| **CRM** (`/admin`) | Dashboard · Leads · Follow-ups · Cohorts · Enrollments · Customers · Payments · Team |
 
 Stack: Vite + React 18 + TypeScript + Tailwind + Supabase. React Query for data.
 
@@ -56,6 +56,45 @@ permission gate. A signed-in account with no `team_members` row sees an empty da
 Seat counts stay honest and a cohort cannot be oversold.
 
 All sixteen assertions pass as of 2026-09-15.
+
+## The dashboard
+
+Built on the shape of the Catalyst dashboard, minus the parts Welmnt has no use for.
+
+**Kept** — period tabs where every number is measured against the previous equivalent
+period; the KPI card that draws last period as a dashed line behind this one; leak chips
+that link straight to the page that fixes them; the funnel with step-to-step conversion;
+the team leaderboard.
+
+**Cut** — ad spend and ROAS (no ads), the payment-gateway settlement banner, gross vs net
+vs cash-in vs cash-out (one price paid once), the currency panel (EGP only), bundles,
+repeat buyers, WhatsApp clicks, the course filter, and YTD/custom ranges.
+
+**Added** — **cohort fill**, which Catalyst has no equivalent of and Welmnt needs more
+than most of what was cut. In a live business an empty seat at kickoff is revenue that
+can never be recovered, because the group has already started.
+
+### One deliberate difference from Catalyst
+
+The comparison is **like for like**: the elapsed part of this period against *the same
+stretch* of the last one — 1–15 September against 1–15 August, not against all of August.
+The obvious implementation makes every month read "down" until the month ends, because a
+half-finished period is being measured against a complete one. The header states the exact
+windows being compared so there is nothing to guess at.
+
+Weeks run **Friday → Thursday**.
+
+It is one `get_dashboard` RPC — one round trip, and one place where permission is checked.
+The alternative is eight client queries each needing its own table grant.
+
+### Demo data
+
+```bash
+python3 scripts/demo-data.py seed   # fills the CRM with plausible leads/cohorts/payments
+python3 scripts/demo-data.py wipe   # removes all of it
+```
+
+⚠️ Writes to the live project. Don't run `wipe` once real parents are in there.
 
 ## Still open
 

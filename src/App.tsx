@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { SiteFooter, SiteHeader } from "@/components/site/SiteShell";
 import { AuthProvider } from "@/components/admin/AuthContext";
@@ -17,15 +17,15 @@ import Enrol from "@/pages/site/Enrol";
 import ThankYou from "@/pages/site/ThankYou";
 import NotFound from "@/pages/site/NotFound";
 
-import AdminLogin from "@/pages/admin/Login";
-import Dashboard from "@/pages/admin/Dashboard";
-import Leads from "@/pages/admin/Leads";
-import FollowUps from "@/pages/admin/FollowUps";
-import Cohorts from "@/pages/admin/Cohorts";
-import Enrollments from "@/pages/admin/Enrollments";
-import Customers from "@/pages/admin/Customers";
-import Payments from "@/pages/admin/Payments";
-import Team from "@/pages/admin/Team";
+const AdminLogin = lazy(() => import("@/pages/admin/Login"));
+const Dashboard = lazy(() => import("@/pages/admin/Dashboard"));
+const Leads = lazy(() => import("@/pages/admin/Leads"));
+const FollowUps = lazy(() => import("@/pages/admin/FollowUps"));
+const Cohorts = lazy(() => import("@/pages/admin/Cohorts"));
+const Enrollments = lazy(() => import("@/pages/admin/Enrollments"));
+const Customers = lazy(() => import("@/pages/admin/Customers"));
+const Payments = lazy(() => import("@/pages/admin/Payments"));
+const Team = lazy(() => import("@/pages/admin/Team"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -56,6 +56,7 @@ export default function App() {
   return (
     <AuthProvider>
       <ScrollToTop />
+      <Suspense fallback={<div className="px-5 py-24 text-center text-ink-faint">Loading…</div>}>
       <Routes>
         {/* public */}
         <Route path="/" element={site(<Home />)} />
@@ -69,7 +70,8 @@ export default function App() {
         <Route path="/enrol" element={site(<Enrol />)} />
         <Route path="/thank-you" element={site(<ThankYou />)} />
 
-        {/* admin */}
+        {/* admin — lazy: a parent reading a programme page should not download
+            the CRM and its charting library. */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route element={<AdminGuard />}>
           <Route path="/admin" element={<AdminLayout />}>
@@ -86,6 +88,7 @@ export default function App() {
 
         <Route path="*" element={site(<NotFound />)} />
       </Routes>
+      </Suspense>
     </AuthProvider>
   );
 }

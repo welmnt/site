@@ -223,6 +223,10 @@ export interface Database {
         Args: Record<string, never>;
         Returns: CurrentTeamMember[];
       };
+      get_dashboard: {
+        Args: { p_period: string };
+        Returns: unknown;   // jsonb — shaped by src/types/dashboard.ts
+      };
     };
     Enums: {
       cohort_status: CohortStatus;

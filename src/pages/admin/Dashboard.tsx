@@ -1,106 +1,109 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { EmptyState, ErrorNote, PageHeader, Panel, Stat, StatusBadge, Table, Td } from "@/components/admin/ui";
-import { egp, shortDate } from "@/lib/format";
+import { ErrorNote } from "@/components/admin/ui";
+import { PeriodTabs } from "@/components/admin/dashboard/PeriodTabs";
+import { KpiCard, type ChartPoint } from "@/components/admin/dashboard/KpiCard";
+import { LeaksBand } from "@/components/admin/dashboard/LeaksBand";
+import { Agents, CohortFill, Funnel, Sources } from "@/components/admin/dashboard/Panels";
+import { count, egp } from "@/components/admin/dashboard/format";
+import type { DashboardData, PeriodKey, SeriesPoint } from "@/types/dashboard";
 
-const today = () => new Date().toISOString().slice(0, 10);
+/** Pull one metric out of the aligned series into the card's chart shape. */
+function series(rows: SeriesPoint[], c: keyof SeriesPoint, p: keyof SeriesPoint): ChartPoint[] {
+  return rows.map((r) => ({
+    x: r.label,
+    plabel: r.plabel,
+    prev: Number(r[p]),
+    cur: r.future ? null : Number(r[c]),
+    curRaw: Number(r[c]),
+    future: r.future,
+  }));
+}
 
 export default function Dashboard() {
-  const stats = useQuery({
-    queryKey: ["admin", "overview"],
+  const [period, setPeriod] = useState<PeriodKey>("month");
+
+  const q = useQuery<DashboardData>({
+    queryKey: ["admin", "dashboard", period],
     queryFn: async () => {
-      const sb = supabase!;
-      const [newLeads, openLeads, dueToday, overdue, paidEnr, revenue] = await Promise.all([
-        sb.from("leads").select("id", { count: "exact", head: true }).eq("status", "new"),
-        sb.from("leads").select("id", { count: "exact", head: true })
-          .in("status", ["new", "contacted", "qualified", "trial_booked"]),
-        sb.from("follow_ups").select("id", { count: "exact", head: true })
-          .eq("status", "pending").eq("scheduled_date", today()),
-        sb.from("follow_ups").select("id", { count: "exact", head: true })
-          .eq("status", "pending").lt("scheduled_date", today()),
-        sb.from("enrollments").select("id", { count: "exact", head: true })
-          .in("status", ["paid", "active", "completed"]),
-        sb.from("payments").select("amount_egp").eq("status", "paid"),
-      ]);
-      const revenueTotal = (revenue.data ?? []).reduce(
-        (s: number, r: { amount_egp: number }) => s + r.amount_egp,
-        0
-      );
-      return {
-        newLeads: newLeads.count ?? 0,
-        openLeads: openLeads.count ?? 0,
-        dueToday: dueToday.count ?? 0,
-        overdue: overdue.count ?? 0,
-        enrolled: paidEnr.count ?? 0,
-        revenue: revenueTotal,
-      };
+      const { data, error } = await supabase!.rpc("get_dashboard", { p_period: period });
+      if (error) throw error;
+      return data as unknown as DashboardData;
     },
     enabled: Boolean(supabase),
   });
 
-  const recent = useQuery({
-    queryKey: ["admin", "recent-leads"],
-    queryFn: async () => {
-      const { data, error } = await supabase!
-        .from("leads")
-        .select("id,parent_name,phone,child_age,status,created_at")
-        .order("created_at", { ascending: false })
-        .limit(8);
-      if (error) throw error;
-      return data ?? [];
-    },
-    enabled: Boolean(supabase),
-  });
+  const d = q.data;
 
   return (
-    <>
-      <PageHeader title="Overview" subtitle="Where the funnel stands right now." />
-      <ErrorNote error={stats.error ?? recent.error} />
-
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <Stat label="New leads" value={stats.data?.newLeads ?? "—"} tone="var(--k1)" hint="Untouched" />
-        <Stat label="Open pipeline" value={stats.data?.openLeads ?? "—"} hint="Not yet won or lost" />
-        <Stat
-          label="Follow-ups overdue"
-          value={stats.data?.overdue ?? "—"}
-          tone={stats.data?.overdue ? "var(--k3)" : "var(--ink)"}
-          hint={`${stats.data?.dueToday ?? 0} due today`}
-        />
-        <Stat label="Children enrolled" value={stats.data?.enrolled ?? "—"} tone="var(--k2)" />
-        <Stat
-          label="Collected"
-          value={stats.data ? egp(stats.data.revenue) : "—"}
-          tone="var(--k2)"
-          hint="Payments marked paid"
-        />
-      </div>
-
-      <div className="mt-6">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-[1.05rem] font-semibold">Latest leads</h2>
-          <Link to="/admin/leads" className="text-[0.85rem] text-[var(--ember)]">
-            All leads →
-          </Link>
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-[1.45rem] font-semibold tracking-[-0.02em]">Dashboard</h1>
+          <p className="mt-1 text-[0.85rem] text-ink-faint">
+            {d?.period.label ?? "Loading…"}
+            {d && (
+              // Say out loud what is being compared. The comparison is like for
+              // like — the elapsed part of this period against the same stretch
+              // of the last one — so a half-finished month doesn't read as a
+              // collapse for 29 days.
+              <span className="ml-1.5 text-ink-faint/70">
+                · {d.period.start} → {d.period.end} vs {d.period.prev_start} → {d.period.prev_end}
+              </span>
+            )}
+          </p>
         </div>
-        <Panel>
-          {recent.data?.length ? (
-            <Table head={["Parent", "Phone", "Child age", "Status", "Arrived"]}>
-              {recent.data.map((l: any) => (
-                <tr key={l.id}>
-                  <Td className="font-medium">{l.parent_name}</Td>
-                  <Td className="text-ink-soft">{l.phone}</Td>
-                  <Td className="text-ink-soft">{l.child_age ?? "—"}</Td>
-                  <Td><StatusBadge value={l.status} /></Td>
-                  <Td className="text-ink-faint">{shortDate(l.created_at)}</Td>
-                </tr>
-              ))}
-            </Table>
-          ) : (
-            <EmptyState title="No leads yet" hint="They'll appear here the moment a parent submits the form." />
-          )}
-        </Panel>
+        <PeriodTabs value={period} onChange={setPeriod} />
       </div>
-    </>
+
+      <ErrorNote error={q.error} />
+
+      {q.isLoading && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-36 animate-pulse rounded-xl border border-line bg-surface" />
+          ))}
+        </div>
+      )}
+
+      {d && (
+        <>
+          <LeaksBand leaks={d.leaks} />
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <KpiCard
+              label="New leads" value={count(d.pulse.new_leads.current)}
+              current={d.pulse.new_leads.current} previous={d.pulse.new_leads.previous}
+              fmt={count} series={series(d.series, "leads_c", "leads_p")}
+            />
+            <KpiCard
+              label="Children enrolled" value={count(d.pulse.enrolled.current)}
+              current={d.pulse.enrolled.current} previous={d.pulse.enrolled.previous}
+              fmt={count} series={series(d.series, "enr_c", "enr_p")}
+            />
+            <KpiCard
+              label="Collected" value={egp(d.pulse.collected.current)}
+              current={d.pulse.collected.current} previous={d.pulse.collected.previous}
+              fmt={egp} series={series(d.series, "rev_c", "rev_p")}
+            />
+            <KpiCard
+              label="Outstanding" value={egp(d.pulse.outstanding.current)}
+              current={d.pulse.outstanding.current} previous={d.pulse.outstanding.previous}
+              fmt={egp} downIsGood hideChart
+            />
+          </div>
+
+          <div className="grid gap-3 lg:grid-cols-3">
+            <CohortFill cohorts={d.cohorts} />
+            <Funnel funnel={d.funnel} />
+            <div className="space-y-3">
+              <Agents agents={d.agents} />
+              <Sources sources={d.sources} />
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
