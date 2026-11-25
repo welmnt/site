@@ -19,10 +19,11 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # one canonical host: www → apex. Protocol-relative, so it works on plain
-  # HTTP today and keeps working once HTTPS is forced above.
+  # one canonical host: www → apex, over HTTPS (AutoSSL covers both names).
+  # Must be an absolute URL: LiteSpeed treats "//host/" as a path on the
+  # current host, which looped www.welmnt.me forever (fixed 2026-11-25).
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^(.*)$ //%1/$1 [R=301,L]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
   # ── SPA fallback ────────────────────────────────────────────────────────
   # Anything that is not a real file or directory is handed to the app, which
