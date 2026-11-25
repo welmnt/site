@@ -61,7 +61,8 @@ export default function Schools() {
             the reach. We bring the psychology and the reporting.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <LinkButton to="/contact">Talk to us about your school</LinkButton>
+            <LinkButton to="/tiktok-family-academy">TikTok Family Academy · Edition 3</LinkButton>
+            <LinkButton to="/contact" variant="ghost">Talk to us about your school</LinkButton>
           </div>
         </div>
       </section>

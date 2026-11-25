@@ -4,6 +4,7 @@ import { FiveMark } from "@/components/ui";
 
 const NAV = [
   { to: "/programmes", label: "Programmes" },
+  { to: "/tiktok-family-academy", label: "Family Academy" },
   { to: "/schools", label: "Schools & Events" },
   { to: "/about", label: "About" },
   { to: "/faq", label: "FAQ" },

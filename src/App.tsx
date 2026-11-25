@@ -10,6 +10,7 @@ import Home from "@/pages/site/Home";
 import Programmes from "@/pages/site/Programmes";
 import ProgrammeDetail from "@/pages/site/ProgrammeDetail";
 import Schools from "@/pages/site/Schools";
+import FamilyAcademy from "@/pages/site/FamilyAcademy";
 import About from "@/pages/site/About";
 import FAQ from "@/pages/site/FAQ";
 import Contact from "@/pages/site/Contact";
@@ -67,6 +68,7 @@ export default function App() {
         <Route path="/programmes" element={site(<Programmes />)} />
         <Route path="/programmes/:slug" element={site(<ProgrammeDetail />)} />
         <Route path="/schools" element={site(<Schools />)} />
+        <Route path="/tiktok-family-academy" element={site(<FamilyAcademy />)} />
         <Route path="/about" element={site(<About />)} />
         <Route path="/faq" element={site(<FAQ />)} />
         <Route path="/contact" element={site(<Contact />)} />

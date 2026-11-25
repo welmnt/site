@@ -11,6 +11,7 @@ const routes = [
   ["programmes/ages-10-13", "0.8"],
   ["programmes/ages-14-17", "0.8"],
   ["schools", "0.7"],
+  ["tiktok-family-academy", "0.8"],
   ["about", "0.6"],
   ["faq", "0.6"],
   ["contact", "0.5"],
